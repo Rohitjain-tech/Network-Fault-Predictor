@@ -1,0 +1,266 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+
+<title>AI Network Fault Prediction</title>
+
+<link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+
+</head>
+
+<body>
+
+{% if probability %}
+<div class="system-banner
+{% if probability > 0.7 %}
+banner-danger
+{% elif probability > 0.4 %}
+banner-warning
+{% else %}
+banner-safe
+{% endif %}
+">
+
+{% if probability > 0.7 %}
+🔴 AI Network Status: High Fault Risk Detected
+{% elif probability > 0.4 %}
+🟡 AI Network Status: Network Under Load
+{% else %}
+🟢 AI Network Status: Network Operating Normally
+{% endif %}
+
+</div>
+{% endif %}
+
+<div class="main-container">
+
+<!-- LEFT PANEL -->
+
+<div class="card">
+
+<h1>AI Network Fault Prediction</h1>
+
+<p class="subtitle">
+Predict network failures using Bayesian AI model
+</p>
+
+<form method="POST">
+
+<div class="input-group">
+<label>CPU Usage</label>
+<select name="cpu" required>
+<option value="">Select</option>
+<option value="1">Low (1)</option>
+<option value="2">Medium (2)</option>
+<option value="3">High (3)</option>
+</select>
+</div>
+
+<div class="input-group">
+<label>Latency</label>
+<select name="latency" required>
+<option value="">Select</option>
+<option value="1">Low (1)</option>
+<option value="2">Medium (2)</option>
+<option value="3">High (3)</option>
+</select>
+</div>
+
+<div class="input-group">
+<label>Packet Loss</label>
+<select name="packetloss" required>
+<option value="">Select</option>
+<option value="0">No Loss (0)</option>
+<option value="1">Packet Loss (1)</option>
+</select>
+</div>
+
+<div class="input-group">
+<label>Bandwidth</label>
+<select name="bandwidth" required>
+<option value="">Select</option>
+<option value="1">Low (1)</option>
+<option value="2">Medium (2)</option>
+<option value="3">High (3)</option>
+</select>
+</div>
+
+<button type="submit">Predict Fault</button>
+
+</form>
+
+{% if error %}
+<div class="alert error">
+{{ error }}
+</div>
+{% endif %}
+
+{% if message %}
+
+<div class="alert success">
+{{ message }} (Fault Probability: {{ (probability*100)|round(1) }}%)
+</div>
+
+<div class="progress-container">
+<div class="progress-bar animated-bar" style="width: {{ probability*100 }}%"></div>
+</div>
+
+<!-- SEMI GAUGE -->
+
+<div class="gauge">
+<div class="gauge-body">
+<div class="gauge-fill"
+style="transform: rotate({{ probability*180 }}deg);">
+</div>
+<div class="gauge-cover">
+{{ (probability*100)|round(0) }}%
+</div>
+</div>
+</div>
+
+<!-- CIRCULAR AI GAUGE -->
+
+<div class="circular-gauge">
+
+<svg width="160" height="160">
+
+<circle class="gauge-bg" cx="80" cy="80" r="70" stroke-width="12"/>
+
+<circle
+class="gauge-progress"
+cx="80"
+cy="80"
+r="70"
+stroke-width="12"
+stroke-dasharray="440"
+stroke-dashoffset="{{ 440 - (probability*440) }}"
+/>
+
+</svg>
+
+<div class="gauge-text">
+{{ (probability*100)|round(0) }}%
+</div>
+
+</div>
+
+<!-- AI HEALTH SCORE -->
+
+<div class="health-panel">
+
+<div class="health-title">
+AI Network Health Score
+</div>
+
+<div class="health-score">
+{{ ((1 - probability)*100)|round(0) }}
+</div>
+
+<div class="health-label">
+
+{% if probability > 0.7 %}
+Critical
+{% elif probability > 0.4 %}
+Warning
+{% else %}
+Healthy
+{% endif %}
+
+</div>
+
+</div>
+
+{% endif %}
+
+{% if risk_text %}
+<div class="risk-box {{ risk_class }}">
+{{ risk_text }}
+</div>
+{% endif %}
+
+{% if suggestion %}
+<div class="suggestion-box">
+<strong>Suggestion:</strong>
+<p>{{ suggestion }}</p>
+</div>
+{% endif %}
+
+{% if message %}
+<a href="/download">
+<button class="download-btn">Download Report</button>
+</a>
+{% endif %}
+
+</div>
+
+
+<!-- RIGHT PANEL -->
+
+<div class="expert-panel">
+
+<h2>AI Expert System</h2>
+
+<p><b>Technique:</b> Bayesian Network (Probabilistic Model)</p>
+
+<h3>Knowledge Base</h3>
+
+<ul>
+<li>IF CPU = High AND Latency = High → Network Congestion Risk</li>
+<li>IF Packet Loss = 1 → Network Fault Likely</li>
+<li>IF Bandwidth = Low AND CPU = High → Performance Issue</li>
+<li>IF Latency = High AND Packet Loss = 1 → High Fault Probability</li>
+</ul>
+
+<h3>Rule Evaluation</h3>
+
+<ul>
+
+{% if rules %}
+{% for rule in rules %}
+<li>{{ rule }}</li>
+{% endfor %}
+{% else %}
+<li>No evaluation yet</li>
+{% endif %}
+
+</ul>
+
+<h3>Inference Result</h3>
+
+{% if message %}
+<p class="result-text">{{ message }}</p>
+{% else %}
+<p>No analysis yet</p>
+{% endif %}
+
+<h3>Suggestion</h3>
+
+{% if suggestion %}
+<p>{{ suggestion }}</p>
+{% else %}
+<p>No suggestion yet</p>
+{% endif %}
+
+<h3>State Space Search</h3>
+
+<div class="state-flow">
+
+<span class="state start">Initial Network State</span>
+
+<span class="arrow">→</span>
+
+<span class="state warn">Evaluate Parameters</span>
+
+<span class="arrow">→</span>
+
+<span class="state danger">Prediction Result</span>
+
+</div>
+
+</div>
+
+</div>
+
+</body>
+</html>
