@@ -3,6 +3,14 @@ https://network-fault-predictor-1.onrender.com
 
 ---
 
+# 📱 Scan QR for Live Demo  
+
+<p align="center">
+  <img src="./rj-ai-project-Qr.jpeg" width="200">
+</p>
+
+---
+
 # ⚙️ AI Network Fault Prediction System  
 ### Intelligent Network Monitoring & Fault Detection Tool  
 
